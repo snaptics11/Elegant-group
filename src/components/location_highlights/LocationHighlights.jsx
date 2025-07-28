@@ -1,144 +1,220 @@
-import React, { useState } from 'react';
-import { Accordion, Container, Row, Col, Button, Modal, Form } from 'react-bootstrap';
-import './LocationHighlights.css';
-import mapImage from '../../assets/locationmap.jpg';
+import React, { useState } from "react";
+import {
+  Accordion,
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Form,
+} from "react-bootstrap";
+import "./LocationHighlights.css";
+import mapImage from "../../assets/locationmap.jpg";
+import projectApproved from "../../assets/project-approved.jpg";
+
+const majorLandmarks = [
+  ["Hyderabad-Bangalore National Highway", "1 KM"],
+  ["Proposed Regional Ring Road (RRR)", "3 KM"],
+  ["Balanagar Town & Railway Station", "5 MIN"],
+  ["1600 Acres Jadcherla Green Industrial Park (Polepally SEZ)", "10 MIN"],
+  ["NMIMS University", "10 MIN"],
+  ["Shadnagar Town & MMTS", "10 MIN"],
+  ["Mahbubnagar IT Towers", "15 MIN"],
+  ["Amar Raja Battery Corridor", "15 MIN"],
+  ["Statue of Equality", "20 MIN"],
+  ["Kanha Shanti Vanam", "20 MIN"],
+  ["ORR", "35 MIN"],
+  ["Wonderla", "45 MIN"],
+  ["Hyderabad International Airport", "45 MIN"],
+];
+
+const plotOptions = [
+  "165 - 200 Sq. Yds",
+  "200 - 300 Sq. Yds",
+  "300 - 400 Sq. Yds",
+];
 
 const LocationHighlights = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    plotRange: "",
+    agree: false,
+  });
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const brochureUrl = '../../assets/Galleria-Gardens-brochure.pdf';
-    const link = document.createElement('a');
-    link.href = brochureUrl;
-    link.download = 'brochure.pdf';
-    document.body.appendChild(link);
+    // Optionally validate or send to API
+    const link = document.createElement("a");
+    link.href = "../../assets/Galleria-Gardens-brochure.pdf";
+    link.download = "Urbanrise_Brochure.pdf";
     link.click();
-    document.body.removeChild(link);
-    setShowModal(false);
+    handleClose();
   };
 
   return (
-    <div id="location-highlights" className="py-5" style={{ backgroundColor: 'beige' }}>
+    <div
+      id="location-highlights"
+      className="py-5"
+      style={{ backgroundColor: "beige" }}
+    >
       <Container>
         <h2 className="fw-bold mb-4 text-center">LOCATION HIGHLIGHTS</h2>
-        <p className="text-muted text-center mb-5" style={{ fontSize: '1.25rem' }}>
-          When it comes to land, location is everything. Urbanrise Galleria Gardens is a community of premium villa plots in Shadnagar, one of Hyderabad's fastest-growing hubs.
+        <p
+          className="text-muted text-center mb-5"
+          style={{ fontSize: "1.25rem" }}
+        >
+          When it comes to land, location is everything. <strong>IConia</strong>{" "}
+          is a community of Luxury villa plots in Balanagar near Shadnagar, one
+          of Hyderabad's fastest-growing hubs.
         </p>
 
         <Row className="g-4 align-items-start">
           {/* Accordion Section */}
           <Col xs={12} md={6}>
             <Accordion defaultActiveKey="0">
-              {[
-                {
-                  key: '0',
-                  title: 'Major Land Marks',
-                  items: [
-                    ['Wipro', '30 MIN'],
-                    ['Electronic City', '30 MIN'],
-                    ['Financial District', '48 MIN'],
-                    ['Gachibowli', '50 MIN'],
-                    ['Adibatla', '50 MIN'],
-                  ],
-                },
-                {
-                  key: '1',
-                  title: 'Education',
-                  items: [
-                    ['Delhi World School Shadnagar', '20 MIN'],
-                    ['Oxford High School Shadnagar', '20 MIN'],
-                    ['Vivekananda Degree College, Shadnagar', '20 MIN'],
-                    ['NMIMS, Jadcherla', '20 MIN'],
-                    ['Symbiosys University, Kothur', '30 MIN'],
-                  ],
-                },
-                {
-                  key: '2',
-                  title: 'Hospitals',
-                  items: [
-                    ['Kritika Hospitals, Shadnagar', '30 MIN'],
-                    ['Vijayajyothi Multi specialty Hospital, Shadnagar', '30 MIN'],
-                    ['ABV Multi Speciality Hospital, Shadnagar', '48 MIN'],
-                  ],
-                },
-                {
-                  key: '3',
-                  title: 'Connectivity',
-                  items: [
-                    ['Proposed Regional Ring Road', '30 MIN'],
-                    ['Shamshabad Airport', '30 MIN'],
-                    ['Outer Ring Road', '48 MIN'],
-                  ],
-                },
-                {
-                  key: '4',
-                  title: 'Weekend Gateways',
-                  items: [
-                    ['Statue of Equality', '30 MIN'],
-                    ['Kanha Shanti Vanam - World Peace Centre', '30 MIN'],
-                    ['Wonderla', '48 MIN'],
-                    ['JP Dargah', '50 MIN'],
-                  ],
-                },
-              ].map(({ key, title, items }) => (
-                <Accordion.Item eventKey={key} key={key}>
-                  <Accordion.Header>{title}</Accordion.Header>
-                  <Accordion.Body>
-                    <ul className="list-unstyled mb-0">
-                      {items.map(([name, time], i) => (
-                        <li key={i} className="d-flex justify-content-between py-1">
-                          <span>{name}</span>
-                          <span className="text-primary fw-semibold">{time}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </Accordion.Body>
-                </Accordion.Item>
-              ))}
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Major Land Marks</Accordion.Header>
+                <Accordion.Body>
+                  <ul className="list-unstyled mb-0">
+                    {majorLandmarks.map(([name, time], i) => (
+                      <li
+                        key={i}
+                        className="d-flex justify-content-between py-1"
+                      >
+                        <span>{name}</span>
+                        <span className="text-primary fw-semibold">{time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
             </Accordion>
-          </Col>
-
-          {/* Map & Enquiry Button */}
-          <Col xs={12} md={6}>
-            <img src={mapImage} alt="map" className="img-fluid rounded shadow-sm w-100" />
-            <div className="mt-3 d-flex justify-content-center justify-content-md-start">
-              <Button variant="primary" className="px-4 py-2" onClick={() => setShowModal(true)}>
+            <div className="mt-3 d-flex justify-content-center">
+              <Button
+                variant="primary"
+                className="px-4 py-2"
+                onClick={handleShow}
+              >
                 ENQUIRE NOW
               </Button>
             </div>
           </Col>
+          {/* Map */}
+          <Col xs={12} md={6}>
+            <img
+              src={mapImage}
+              alt="map"
+              className="img-fluid rounded shadow-sm w-100"
+              style={{ objectFit: "cover", minHeight: 220 }}
+            />
+          </Col>
         </Row>
       </Container>
 
+      {/* Project Approved Image - Responsive */}
+      <div className="d-flex justify-content-center pt-5">
+        <img
+          src={projectApproved}
+          alt="Approved"
+          className="img-fluid rounded shadow-sm"
+          style={{ width: "100%", maxWidth: 800 }}
+        />
+      </div>
+
+      {/* Youtube Video - Responsive Embed */}
+      <div className="d-flex justify-content-center pt-5">
+        <div
+          style={{ width: "100%", height: "500px", }}
+        >
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/UvepndSicLc?si=83Ie27n8eePcHrs4&amp;controls=0"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+
       {/* Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Enquire & Download Brochure</Modal.Title>
+          <Modal.Title>Download Brochure</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formName" className="mb-3">
+        <Form onSubmit={handleSubmit}>
+          <Modal.Body>
+            <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your name" required />
+              <Form.Control
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                placeholder="Enter your name"
+              />
             </Form.Group>
-
-            <Form.Group controlId="formEmail" className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter your email" required />
-            </Form.Group>
-
-            <Form.Group controlId="formPhone" className="mb-3">
+            <Form.Group className="mb-3">
               <Form.Label>Phone</Form.Label>
-              <Form.Control type="tel" placeholder="Enter your phone number" required />
+              <Form.Control
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                placeholder="Enter your phone number"
+              />
             </Form.Group>
-
-            <Button variant="primary" type="submit" className="w-100">
-              Submit & Download
+            <Form.Group className="mb-3">
+              <Form.Label>Select Your Plot Range</Form.Label>
+              <Form.Select
+                name="plotRange"
+                value={formData.plotRange}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Range</option>
+                {plotOptions.map((range) => (
+                  <option key={range} value={range}>
+                    {range}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-3 form-check">
+              <Form.Check
+                type="checkbox"
+                id="agree"
+                name="agree"
+                checked={formData.agree}
+                onChange={handleChange}
+                label="I agree and authorize the team to contact me. This will override the registry with DNC / NDNC."
+                required
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" type="submit">
+              Download
             </Button>
-          </Form>
-        </Modal.Body>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </div>
   );

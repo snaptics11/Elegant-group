@@ -36,7 +36,7 @@ const Footer = () => {
                         <ul className="list-unstyled">
                             <li><a href="#Home">Home</a></li>
                             <li><a href="#About">About Us</a></li>
-                            <li><a href="#Project">Projects</a></li>
+                            <li><a href="#Highlights">Projects Highlights</a></li>
                             <li><a href="#Gallery">Gallery</a></li>
                             <li><a href="#Contact">Contact</a></li>
                         </ul>
@@ -45,15 +45,15 @@ const Footer = () => {
                         <h6>Other Links</h6>
                         <ul className="list-unstyled">
                             <li><a href="#Amenities">Amenities</a></li>
-                            <li><a href="#">Location Highlights</a></li>
+                            <li><a href="#location-highlights">Location Highlights</a></li>
                         </ul>
                     </div>
                     <div className="col-md-3" style={{marginTop: '20px'}}>
                     <h6>Contact Us</h6>
                     <ul className="list-unstyled">
                     <li><i className="fas fa-phone-alt"></i> 
-                    : +91 1234567890</li>
-                    <li><i className="bi bi-envelope-fill"></i>:   info@myelegantgroup.com</li>
+                    : +91 9966764646</li>
+                    {/* <li><i className="bi bi-envelope-fill"></i>:   info@myelegantgroup.com</li> */}
                     </ul>
                     </div>
                 </div>

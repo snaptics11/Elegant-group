@@ -79,23 +79,43 @@ const Navbar = () => {
         window.history.replaceState(null, "", window.location.pathname);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Form data:", formData);
-        setShowSubmitPopup(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setShowSubmitPopup(true);
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+        const response = await fetch("https://yourdomain.com/send-email.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+
+
+                
+            },
+            body: new URLSearchParams({
+                name: formData.name,
+                mobile: formData.mobile,
+                plotRange: formData.plotRange,
+            }),
+        });
+
+        const result = await response.text();
+        if (result === "success") {
             const link = document.createElement('a');
             link.href = brochureFile;
-            link.download = 'Urbanrise_Brochure.pdf';
+            link.download = 'Galleria-Gardens-brochure.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        } catch (error) {
-            console.error('Error during form submission/download:', error);
+        } else {
+            alert("There was an error submitting the form.");
         }
-    };
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
+
 
     const handleCloseSubmitPopup = () => {
         setShowSubmitPopup(false);
@@ -104,7 +124,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="navbar navbar-expand-lg navbar-light p-3 sticky-top" style={{ backgroundColor: "#3578e5" }}>
+        <div className="navbar navbar-expand-lg navbar-light p-3 sticky-top" style={{ backgroundColor: "white" }}>
             <div className="container">
                 <div className="navbar-brand d-flex align-items-center" onClick={() => handleNavLinkClick('Logo')} style={{ cursor: "pointer" }}>
                     <img src={logo} alt="Logo" style={{ height: "60px" }} className="img" />
@@ -127,7 +147,7 @@ const Navbar = () => {
                         ))}
                     </ul>
                     <div className="text-center mt-2 mt-lg-0">
-                        <button className="btn btn-outline-light w-100 w-lg-auto" onClick={handleOpenEnquiryPopup}>Download Brochure</button>
+                        <button className="btn btn-outline-primary w-100 w-lg-auto" onClick={handleOpenEnquiryPopup}>Download Brochure</button>
                     </div>
                 </div>
             </div>
@@ -137,7 +157,7 @@ const Navbar = () => {
                 <div className="popup-overlay" onClick={handleCloseEnquiryPopup}>
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
                         <div className="popup-header">
-                            <h2>Schedule Site Visit & Download Brochure</h2>
+                            <h2>Download Brochure</h2>
                             <button className="close-button" onClick={handleCloseEnquiryPopup}>
                                 <i className="bi bi-x" style={{ fontSize: "1.5rem" }}></i>
                             </button>

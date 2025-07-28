@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import brochureFile from '../../assets/Galleria-Gardens-brochure.pdf';
 import './Brochure.css';
 
 const PopupForm = ({ show, handleClose }) => {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    phone: '',
+    mobile: '',
     plotRange: '',
     agree: false,
   });
@@ -16,21 +16,47 @@ const PopupForm = ({ show, handleClose }) => {
     setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
 
-    const link = document.createElement('a');
-    link.href = '../../assets/Galleria-Gardens-brochure.pdf';
-    link.download = 'Urbanrise-Brochure.pdf';
-    link.click();
-    handleClose();
+    try {
+                                  // i should update this line    
+   const response = await fetch("https://yourdomain.com/send-email.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          name: formData.name,
+          mobile: formData.mobile,
+          plotRange: formData.plotRange,
+        }),
+      });
+
+      const result = await response.text();
+
+      if (result === "success") {
+        alert("Form submitted successfully! Your brochure is downloading...");
+        const link = document.createElement('a');
+        link.href = brochureFile;
+        link.download = "Galleria-Gardens-brochure.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        handleClose(); 
+      } else {
+        alert("There was an error submitting the form.");
+      }
+    } catch (err) {
+      console.error("Submit failed:", err);
+      alert("Something went wrong.");
+    }
   };
 
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Book a Free Site Visit</Modal.Title>
+        <Modal.Title>Download Brochure</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
@@ -47,26 +73,14 @@ const PopupForm = ({ show, handleClose }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter email"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Phone</Form.Label>
+            <Form.Label>Mobile Number</Form.Label>
             <Form.Control
               type="tel"
-              name="phone"
+              name="mobile"
               required
-              value={formData.phone}
+              value={formData.mobile}
               onChange={handleChange}
-              placeholder="Enter phone number"
+              placeholder="Enter mobile number"
             />
           </Form.Group>
 
@@ -97,9 +111,6 @@ const PopupForm = ({ show, handleClose }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
           <Button variant="primary" type="submit">
             Download Brochure
           </Button>

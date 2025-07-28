@@ -91,7 +91,7 @@ const Contact = () => {
                         <div className="card p-md-4 p-3">
                             <iframe
                                 title="Property Location"
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30456.987654321!2d78.10243!3d16.50033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sWMF%20Peddyspelle%2C%20Telangana!5e0!3m2!1sen!2sus!4v1628787878787!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3454.0218744334165!2d78.1733864!3d16.934247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bca338d67099e35%3A0xe7bdc0631a49a1ce!2sIconia%20by%20Primeland!5e1!3m2!1sen!2sin!4v1753688624184!5m2!1sen!2sin"
                                 width="100%"
                                 height="350"
                                 style={{ border: 0 }}

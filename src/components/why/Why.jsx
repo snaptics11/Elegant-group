@@ -21,11 +21,11 @@ const Why = () => {
 
             {/* Text Column */}
             <Col xs={12} md={6}>
-              <h2 className="fw-bold mb-4">WHY IN URBANRISE GALLERIA GARDENS?</h2>
+              <h2 className="fw-bold mb-4">WHY ICONIA?</h2>
               <ul className="list-unstyled">
                 {[
-                  'Potential Opportunity',
-                  'Safe, Secure, & Trustworthy',
+                  'Potential Investment Opportunity',
+                  'Safe, Secure, & Trustworthy Investment',
                   'Multiple Infrastructural Developments In & Around Shadnagar',
                   'Convenient Access & Seamless Connectivity',
                   'Strategic Location: Hyderabad-Bangalore Highway',
