@@ -33,7 +33,7 @@ function Header() {
           in Shadnagar.
         </p>
 
-        <ul>
+        <ul style={{ listStyleType: "none" }}>
           <li>✅ MUDA & DTCP Approved Plots under HMDA Limits</li>
           <li>✅ Gated Community with Modern Amenities</li>
           <li>✅ Excellent Connectivity to ORR, RRR & Airport</li>
@@ -50,7 +50,7 @@ function Header() {
         </p>
 
         <h3>📍 Location Advantage:</h3>
-        <ul>
+        <ul style={{ marginLeft: "20px" }}>
           <li>Adjacent to the upcoming RRR</li>
           <li>Near Shadnagar MMTS, NH-44</li>
           <li>40 mins from Shamshabad Airport</li>
