@@ -1,61 +1,91 @@
-import React, { useState } from 'react';
-import brochureFile from '../../assets/Galleria-Gardens-brochure.pdf';
+import React, { useState } from "react";
+import brochureFile from "../../assets/Galleria-Gardens-brochure.pdf";
+import "./form.css";
 
 function Form() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    plotRange: '',
+    name: "",
+    email: "",
+    mobile: "",
+    plotRange: "",
     agree: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionError, setSubmissionError] = useState('');
+  const [submissionError, setSubmissionError] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmissionError('');
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmissionError("");
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+  try {
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("mobile", formData.mobile);
+    data.append("plotRange", formData.plotRange);
 
-      console.log('Form Data:', formData);
-      const link = document.createElement('a');
+    const response = await fetch("http://localhost/Elegant-group/htdocs/backend/send-email.php", {
+      method: "POST",
+      body: data,
+    });
+
+    const result = await response.text();
+
+    if (result.trim() === "success") {
+      // Trigger brochure download
+      const link = document.createElement("a");
       link.href = brochureFile;
-      link.download = 'Urbanrise_Brochure.pdf';
+      link.download = "Urbanrise_Brochure.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      setFormData({ name: '', email: '', mobile: '', plotRange: '', agree: false });
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmissionError('Failed to process your request. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        mobile: "",
+        plotRange: "",
+        agree: false,
+      });
+    } else {
+      setSubmissionError("Submission failed. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    setSubmissionError("Failed to process your request. Please try again later.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
-    <div className="py-5 px-3" style={{ backgroundColor: 'lightgray' }}>
+    <section
+      className="form-section py-5 px-3"
+      style={{ backgroundColor: "lightgray" }}
+    >
       <div className="container">
         <div className="row g-5 align-items-center">
           {/* Form Column */}
-          <div className="col-12 col-md-6 col-lg-5">
-            <div className="bg-light px-4 px-md-5 py-5 rounded shadow">
-              <h2 className="mb-4 text-center">Download Brochure</h2>
+          <div className="col-12 col-md-6">
+            <div className="p-4 rounded shadow bg-white">
+              <h2 className="mb-4 text-center text-uppercase fw-bold">
+                Download Brochure
+              </h2>
               <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="name" className="form-label">Name*</label>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">
+                    Name*
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -66,20 +96,10 @@ function Form() {
                     required
                   />
                 </div>
-                <div className="mb-4">
-                  <label htmlFor="email" className="form-label">Email ID*</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="mobile" className="form-label">Mobile Number*</label>
+                <div className="mb-3">
+                  <label htmlFor="mobile" className="form-label">
+                    Mobile Number*
+                  </label>
                   <input
                     type="tel"
                     className="form-control"
@@ -90,8 +110,10 @@ function Form() {
                     required
                   />
                 </div>
-                <div className="mb-4">
-                  <label htmlFor="plotRange" className="form-label">Select Your Plot Range</label>
+                <div className="mb-3">
+                  <label htmlFor="plotRange" className="form-label">
+                    Select Your Plot Range
+                  </label>
                   <select
                     className="form-select"
                     id="plotRange"
@@ -105,7 +127,7 @@ function Form() {
                     <option value="range3">300 - 400 Sq. Yds</option>
                   </select>
                 </div>
-                <div className="mb-4 form-check">
+                <div className="mb-3 form-check">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -116,7 +138,8 @@ function Form() {
                     required
                   />
                   <label className="form-check-label" htmlFor="agree">
-                    I agree and authorize the team to contact me. This will override the registry with DNC / NDNC.
+                    I agree and authorize the team to contact me. This will
+                    override the registry with DNC / NDNC.
                   </label>
                 </div>
                 {submissionError && (
@@ -124,33 +147,63 @@ function Form() {
                 )}
                 <button
                   type="submit"
-                  className="btn btn-outline-primary w-100"
+                  className="btn btn-primary w-100"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                  {isSubmitting ? "Submitting..." : "Submit & Download"}
                 </button>
               </form>
             </div>
           </div>
 
-          {/* Description Column */}
-          <div className="col-12 col-md-6 col-lg-6 offset-lg-1">
-            <div className="pt-3 pt-md-0">
-              <h2 className="text-uppercase fw-bold mb-4" style={{ color: '#000' }}>
-                Build Your Dream Villa for the Future
+          {/* Text Content Column */}
+          <div className="col-12 col-md-6">
+            <div className="ps-md-4">
+              <h2
+                className="text-uppercase fw-bold mb-4"
+                style={{ fontSize: "1.5rem" }}
+              >
+                Looking to invest in the fastest-growing real estate hotspot
+                near Hyderabad?
               </h2>
-              <p style={{ fontSize: '18px' }}>
-                Urbanrise Galleria Gardens, a luxury villa plots project at the high-growth corridor,
-                is located on the Hyderabad - Bangalore Highway. Shadnagar is the fastest growing
-                real estate opportunity around Hyderabad. Own your villa plot in the premium gated
-                community, just adjacent to the proposed RRR. MUDA & DTCP-approved villa plots at
-                Shadnagar. Buy now & witness ultimate appreciation in the future!
+              <p style={{ fontSize: "1rem" }}>
+                Welcome to <strong>Iconia by My Elegant Group</strong> – a
+                premium villa plots community located on the Hyderabad–Bangalore
+                Highway, right next to the proposed Regional Ring Road (RRR) in
+                Shadnagar.
+              </p>
+              <h3 className="fw-bold my-4" style={{ fontSize: "1.25rem" }}>
+                Invest in Your Future with Iconia by Elegant Group
+              </h3>
+              <p style={{ fontSize: "1rem" }}>
+                Iconia by Elegant Group offers premium villa plots in a
+                thoughtfully planned gated community. Strategically located in a
+                rapidly developing zone near Hyderabad, this project combines
+                luxury, connectivity, and long-term value. Backed by MUDA and
+                DTCP approvals, Iconia ensures legal clarity and quality
+                infrastructure. Secure your space today and watch your
+                investment grow with confidence.
+              </p>
+              <p>
+                <ul style={{ fontSize: "1rem", listStyleType: "none" }}>
+                  <li> ✅ MUDA & DTCP Approved Plots under HMDA Limits</li>
+                  <li>✅ Gated Community with Modern Amenities</li>
+                  <li>✅ Excellent Connectivity to ORR, RRR & Airport</li>
+                  <li>✅ Ready for Construction</li>
+                  <li>✅ High-Growth Zone – Maximum Appreciation Potential</li>
+                    
+                </ul>
+                <p>Surrounded by rapid infrastructure development and major
+                    government projects, Iconia offers the perfect blend of
+                    nature, luxury, and future-ready living. Whether you’re
+                    planning to build your dream home or grow your wealth, this
+                    is your gateway to long-term prosperity.</p>
               </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

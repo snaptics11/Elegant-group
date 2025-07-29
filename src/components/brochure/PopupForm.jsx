@@ -1,60 +1,88 @@
-import { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import brochureFile from '../../assets/Galleria-Gardens-brochure.pdf';
-import './Brochure.css';
+import { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import brochureFile from "../../assets/Galleria-Gardens-brochure.pdf";
+import PropTypes from "prop-types";
+import "./Brochure.css";
+
+const initialForm = {
+  name: "",
+  mobile: "",
+  plotRange: "",
+  agree: false,
+};
 
 const PopupForm = ({ show, handleClose }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    mobile: '',
-    plotRange: '',
-    agree: false,
-  });
+  const [formData, setFormData] = useState(initialForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+  };
+
+  const handleModalClose = () => {
+    setFormData(initialForm);
+    handleClose();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (
+      !formData.name ||
+      !formData.mobile ||
+      !formData.plotRange ||
+      !formData.agree
+    ) {
+      alert("Please fill out all fields and accept terms.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-                                  // i should update this line    
-   const response = await fetch("https://yourdomain.com/send-email.php", {
+      // Backend URL - Ensure path is correct
+      const url =
+        "http://localhost/Elegant-group/htdocs/backend/send-email.php";
+
+      const formBody = new URLSearchParams({
+        name: formData.name,
+        mobile: formData.mobile,
+        plotRange: formData.plotRange,
+      });
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: new URLSearchParams({
-          name: formData.name,
-          mobile: formData.mobile,
-          plotRange: formData.plotRange,
-        }),
+        body: formBody,
       });
 
       const result = await response.text();
 
-      if (result === "success") {
+      if (result.trim().toLowerCase() === "success") {
         alert("Form submitted successfully! Your brochure is downloading...");
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = brochureFile;
         link.download = "Galleria-Gardens-brochure.pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        handleClose(); 
+        handleModalClose();
       } else {
-        alert("There was an error submitting the form.");
+        alert("Submission failed: " + result);
       }
     } catch (err) {
-      console.error("Submit failed:", err);
-      alert("Something went wrong.");
+      console.error("Error submitting form:", err);
+      alert("Something went wrong. Make sure the backend URL is correct.");
     }
+
+    setIsSubmitting(false);
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered>
+    <Modal show={show} onHide={handleModalClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Download Brochure</Modal.Title>
       </Modal.Header>
@@ -71,19 +99,21 @@ const PopupForm = ({ show, handleClose }) => {
               placeholder="Enter your name"
             />
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Mobile Number</Form.Label>
             <Form.Control
               type="tel"
               name="mobile"
               required
+              pattern="[0-9]{10}"
               value={formData.mobile}
               onChange={handleChange}
-              placeholder="Enter mobile number"
+              placeholder="Enter 10-digit number"
             />
+            <Form.Text className="text-muted">
+              Numbers only, no country code.
+            </Form.Text>
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Select Your Plot Range</Form.Label>
             <Form.Select
@@ -93,31 +123,35 @@ const PopupForm = ({ show, handleClose }) => {
               required
             >
               <option value="">Select Range</option>
-              <option value="range1">165 - 200 Sq. Yds</option>
-              <option value="range2">200 - 300 Sq. Yds</option>
-              <option value="range3">300 - 400 Sq. Yds</option>
+              <option value="165 - 200 Sq. Yds">165 - 200 Sq. Yds</option>
+              <option value="200 - 300 Sq. Yds">200 - 300 Sq. Yds</option>
+              <option value="300 - 400 Sq. Yds">300 - 400 Sq. Yds</option>
             </Form.Select>
           </Form.Group>
-
           <Form.Group className="mb-3 form-check">
             <Form.Check
               type="checkbox"
               name="agree"
               checked={formData.agree}
               onChange={handleChange}
-              label="I agree and authorize the team to contact me. This will override the registry with DNC / NDNC."
+              label="I agree and authorize the team to contact me..."
               required
             />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" type="submit">
-            Download Brochure
+          <Button variant="primary" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Download Brochure"}
           </Button>
         </Modal.Footer>
       </Form>
     </Modal>
   );
+};
+
+PopupForm.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default PopupForm;
