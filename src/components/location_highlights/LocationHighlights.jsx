@@ -61,16 +61,18 @@ const LocationHighlights = () => {
     try {
       const data = new FormData();
       data.append("name", formData.name);
-      data.append("mobile", formData.phone); // Must match PHP
+      data.append("mobile", formData.phone); // Match the PHP expected field
       data.append("plotRange", formData.plotRange);
 
-      const response = await fetch(
-        "http://localhost/Elegant-group/htdocs/backend/send-email.php",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+      const isLocalhost = window.location.hostname === "localhost";
+      const baseURL = isLocalhost
+        ? "http://localhost/Elegant-group/htdocs/backend"
+        : "https://myelegantgroup.com/landing/send-email.php";
+
+      const response = await fetch(`${baseURL}/send-email.php`, {
+        method: "POST",
+        body: data,
+      });
 
       const result = await response.text();
 

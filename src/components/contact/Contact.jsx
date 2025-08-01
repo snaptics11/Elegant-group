@@ -25,35 +25,39 @@ const Contact = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const data = new FormData();
-      data.append("name", formData.name);
-      data.append("mobile", formData.mobile);
-      data.append("location", formData.location);
+  try {
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("mobile", formData.mobile);
+    data.append("location", formData.location);
 
-      const response = await fetch(
-        "http://localhost/Elegant-group/htdocs/backend/contact-form.php",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+    // Dynamically choose the correct URL
+    const isLocalhost = window.location.hostname === "localhost";
+    const url = isLocalhost
+      ? "http://localhost/Elegant-group/htdocs/backend/contact-form.php"
+      : "https://myelegantgroup.com/landing/contact-form.php"; // Change this to actual live path
 
-      const result = await response.text();
+    const response = await fetch(url, {
+      method: "POST",
+      body: data,
+    });
 
-      if (result.trim() === "success") {
-        setShowSubmitPopup(true);
-        setFormData({ name: "", mobile: "", location: "" });
-      } else {
-        alert("Submission failed. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Error submitting contact form:", error);
-      alert("Failed to submit form. Please try again.");
+    const result = await response.text();
+
+    if (result.trim().toLowerCase() === "success") {
+      setShowSubmitPopup(true);
+      setFormData({ name: "", mobile: "", location: "" });
+    } else {
+      alert("Submission failed. Server response: " + result);
     }
-  };
+  } catch (error) {
+    console.error("Error submitting contact form:", error);
+    alert("Failed to submit form. Please try again.");
+  }
+};
+
 
   const handleCloseSubmitPopup = () => {
     setShowSubmitPopup(false);
