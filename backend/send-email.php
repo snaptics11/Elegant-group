@@ -6,18 +6,26 @@ require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
 require __DIR__ . '/PHPMailer/src/Exception.php';
 
-// Allow CORS from frontend port (5173)
-header("Access-Control-Allow-Origin: http://localhost:5173");
+// Allow CORS from trusted origins
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$allowed_origins = [
+    'http://localhost:5173',
+    'https://myelegantgroup.com',
+];
+
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+}
+
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    // Handle preflight request
     http_response_code(200);
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
     $mobile = $_POST['mobile'] ?? '';
     $plotRange = $_POST['plotRange'] ?? '';
@@ -25,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail = new PHPMailer(true);
 
     try {
-        // Server settings
+        // SMTP settings
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'primelandindiagroup@gmail.com'; 
-        $mail->Password = 'opcu byxm kttt iqnb'; // App password
+        $mail->Username = 'primelandindiagroup@gmail.com';
+        $mail->Password = 'opcu byxm kttt iqnb'; // Use App Password only
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -39,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->addAddress('haritha@snaptics.in');
         $mail->addAddress('operations@snaptics.in');
 
-        // Content
+        // Email content
         $mail->isHTML(true);
         $mail->Subject = 'New Brochure Download Enquiry';
         $mail->Body = "

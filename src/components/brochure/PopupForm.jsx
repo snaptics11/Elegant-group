@@ -28,6 +28,7 @@ const PopupForm = ({ show, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Simple validation
     if (
       !formData.name ||
       !formData.mobile ||
@@ -41,9 +42,11 @@ const PopupForm = ({ show, handleClose }) => {
     setIsSubmitting(true);
 
     try {
-      // Backend URL - Ensure path is correct
-      const url =
-        "http://localhost/Elegant-group/htdocs/backend/send-email.php";
+      // Dynamically set URL for local or production
+      const isLocal = window.location.hostname === "localhost";
+      const url = isLocal
+        ? "http://localhost/Elegant-group/htdocs/backend/send-email.php"
+        : "https://myelegantgroup.com/landing/send-email.php";
 
       const formBody = new URLSearchParams({
         name: formData.name,
@@ -63,19 +66,31 @@ const PopupForm = ({ show, handleClose }) => {
 
       if (result.trim().toLowerCase() === "success") {
         alert("Form submitted successfully! Your brochure is downloading...");
+
+        // Trigger brochure download
         const link = document.createElement("a");
         link.href = brochureFile;
         link.download = "Elegant-Iconia-Presentation.pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        handleModalClose();
+
+        // Optional: close modal
+        handleModalClose?.();
+
+        // Reset form
+        setFormData({
+          name: "",
+          mobile: "",
+          plotRange: "",
+          agree: false,
+        });
       } else {
         alert("Submission failed: " + result);
       }
     } catch (err) {
       console.error("Error submitting form:", err);
-      alert("Something went wrong. Make sure the backend URL is correct.");
+      alert("Something went wrong. Please check your internet or try again.");
     }
 
     setIsSubmitting(false);

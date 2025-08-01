@@ -22,55 +22,59 @@ function Form() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmissionError("");
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmissionError("");
 
-    try {
-      const data = new FormData();
-      data.append("name", formData.name);
-      data.append("mobile", formData.mobile);
-      data.append("plotRange", formData.plotRange);
+  try {
+    const data = new FormData();
+    data.append("name", formData.name);
+    data.append("mobile", formData.mobile);
+    data.append("plotRange", formData.plotRange);
 
-      const response = await fetch(
-        "http://localhost/Elegant-group/htdocs/backend/send-email.php",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+    // Dynamically select backend URL
+    const isLocalhost = window.location.hostname === "localhost";
+    const apiUrl = isLocalhost
+      ? "http://localhost/Elegant-group/htdocs/backend/send-email.php"
+      : "https://myelegantgroup.com/backend/send-email.php";
 
-      const result = await response.text();
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      body: data,
+    });
 
-      if (result.trim() === "success") {
-        // Trigger brochure download
-        const link = document.createElement("a");
-        link.href = brochureFile;
-        link.download = "Elegant-Iconia-Presentation.pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const result = await response.text();
 
-        // Reset form
-        setFormData({
-          name: "",
-          email: "",
-          mobile: "",
-          plotRange: "",
-          agree: false,
-        });
-      } else {
-        setSubmissionError("Submission failed. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setSubmissionError(
-        "Failed to process your request. Please try again later."
-      );
-    } finally {
-      setIsSubmitting(false);
+    if (result.trim() === "success") {
+      // Trigger brochure download
+      const link = document.createElement("a");
+      link.href = brochureFile;
+      link.download = "Elegant-Iconia-Presentation.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        mobile: "",
+        plotRange: "",
+        agree: false,
+      });
+    } else {
+      setSubmissionError("Submission failed. Please try again.");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    setSubmissionError(
+      "Failed to process your request. Please try again later."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <section

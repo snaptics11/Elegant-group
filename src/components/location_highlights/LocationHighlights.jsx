@@ -56,41 +56,43 @@ const LocationHighlights = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("mobile", formData.phone); // Must match PHP
-    data.append("plotRange", formData.plotRange);
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("mobile", formData.phone); // Must match PHP
+      data.append("plotRange", formData.plotRange);
 
-    const response = await fetch("http://localhost/Elegant-group/htdocs/backend/send-email.php", {
-      method: "POST",
-      body: data,
-    });
+      const response = await fetch(
+        "http://localhost/Elegant-group/htdocs/backend/send-email.php",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
-    const result = await response.text();
+      const result = await response.text();
 
-    if (result.trim() === "success") {
-      // Trigger PDF download
-      const link = document.createElement("a");
-      link.href = brochureFile;
-      link.download = "Elegant-Iconia-Presentation.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (result.trim() === "success") {
+        // Trigger PDF download
+        const link = document.createElement("a");
+        link.href = brochureFile;
+        link.download = "Elegant-Iconia-Presentation.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      handleClose(); // Close modal
-      setFormData({ name: "", phone: "", plotRange: "", agree: false });
-    } else {
-      alert("Email failed. Please try again.");
+        handleClose(); // Close modal
+        setFormData({ name: "", phone: "", plotRange: "", agree: false });
+      } else {
+        alert("Email failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Submission failed. Try again later.");
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("Submission failed. Try again later.");
-  }
-};
-
+  };
 
   return (
     <div
@@ -109,7 +111,7 @@ const LocationHighlights = () => {
           of Hyderabad's fastest-growing hubs.
         </p>
 
-        <Row className="g-4 align-items-start" >
+        <Row className="g-4 align-items-start">
           {/* Accordion Section */}
           <Col xs={12} md={6}>
             <Accordion defaultActiveKey="0">
@@ -164,9 +166,7 @@ const LocationHighlights = () => {
 
       {/* Youtube Video - Responsive Embed */}
       <div className="d-flex justify-content-center pt-5">
-        <div
-          style={{ width: "100%", height: "500px", }}
-        >
+        <div style={{ width: "100%", height: "500px" }}>
           <iframe
             width="100%"
             height="100%"
