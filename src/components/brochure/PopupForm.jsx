@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import brochureFile from "../../assets/Galleria-Gardens-brochure.pdf";
+import brochureFile from "../../assets/Elegant-Iconia-Presentation.pdf";
 import PropTypes from "prop-types";
 import "./Brochure.css";
 
@@ -65,7 +65,7 @@ const PopupForm = ({ show, handleClose }) => {
         alert("Form submitted successfully! Your brochure is downloading...");
         const link = document.createElement("a");
         link.href = brochureFile;
-        link.download = "Galleria-Gardens-brochure.pdf";
+        link.download = "Elegant-Iconia-Presentation.pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -134,7 +134,7 @@ const PopupForm = ({ show, handleClose }) => {
               name="agree"
               checked={formData.agree}
               onChange={handleChange}
-              label="I agree and authorize the team to contact me..."
+              label="I agree and authorize the team to contact me. This will override the registry with DNC / NDNC."
               required
             />
           </Form.Group>

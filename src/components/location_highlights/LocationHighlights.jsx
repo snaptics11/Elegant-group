@@ -11,7 +11,7 @@ import {
 import "./LocationHighlights.css";
 import mapImage from "../../assets/locationmap.jpg";
 import projectApproved from "../../assets/project-approved.jpg";
-import brochureFile from "../../assets/Galleria-Gardens-brochure.pdf";
+import brochureFile from "../../assets/Elegant-Iconia-Presentation.pdf";
 
 const majorLandmarks = [
   ["Hyderabad-Bangalore National Highway", "1 KM"],
@@ -75,7 +75,7 @@ const LocationHighlights = () => {
       // Trigger PDF download
       const link = document.createElement("a");
       link.href = brochureFile;
-      link.download = "Urbanrise_Brochure.pdf";
+      link.download = "Elegant-Iconia-Presentation.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

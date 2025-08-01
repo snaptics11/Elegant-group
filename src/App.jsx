@@ -26,11 +26,12 @@ function App() {
       <div id="Form"><Form /></div>
       <div id="About"><About /></div>
       <div id="Highlights"><Highlights /></div>
+      <div id="Gallery"><Gallery /></div>
       <div id="Amenities"><Amenities /></div>
       <div id="why"><Why /></div>
       {/* <div id="ProjectDetails"><ProjectDetails /></div> */}
       <div id="location-highlights"><LocationHighlights /></div>
-      <div id="Gallery"><Gallery /></div>
+      
       <div id="Contact"><Contact /></div>
       <Footer />
     </div>

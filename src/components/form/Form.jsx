@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import brochureFile from "../../assets/Galleria-Gardens-brochure.pdf";
+import brochureFile from "../../assets/Elegant-Iconia-Presentation.pdf";
 import "./form.css";
 
 function Form() {
@@ -22,51 +22,55 @@ function Form() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setSubmissionError("");
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmissionError("");
 
-  try {
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("mobile", formData.mobile);
-    data.append("plotRange", formData.plotRange);
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("mobile", formData.mobile);
+      data.append("plotRange", formData.plotRange);
 
-    const response = await fetch("http://localhost/Elegant-group/htdocs/backend/send-email.php", {
-      method: "POST",
-      body: data,
-    });
+      const response = await fetch(
+        "http://localhost/Elegant-group/htdocs/backend/send-email.php",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
 
-    const result = await response.text();
+      const result = await response.text();
 
-    if (result.trim() === "success") {
-      // Trigger brochure download
-      const link = document.createElement("a");
-      link.href = brochureFile;
-      link.download = "Urbanrise_Brochure.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      if (result.trim() === "success") {
+        // Trigger brochure download
+        const link = document.createElement("a");
+        link.href = brochureFile;
+        link.download = "Elegant-Iconia-Presentation.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        mobile: "",
-        plotRange: "",
-        agree: false,
-      });
-    } else {
-      setSubmissionError("Submission failed. Please try again.");
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          mobile: "",
+          plotRange: "",
+          agree: false,
+        });
+      } else {
+        setSubmissionError("Submission failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmissionError(
+        "Failed to process your request. Please try again later."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    setSubmissionError("Failed to process your request. Please try again later.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
-
+  };
 
   return (
     <section
@@ -122,9 +126,9 @@ function Form() {
                     onChange={handleChange}
                   >
                     <option value="">Select Range</option>
-                    <option value="range1">165 - 200 Sq. Yds</option>
-                    <option value="range2">200 - 300 Sq. Yds</option>
-                    <option value="range3">300 - 400 Sq. Yds</option>
+                    <option value="165 - 200 Sq. Yds">165 - 200 Sq. Yds</option>
+                    <option value="200 - 300 Sq. Yds">200 - 300 Sq. Yds</option>
+                    <option value="300 - 400 Sq. Yds">300 - 400 Sq. Yds</option>
                   </select>
                 </div>
                 <div className="mb-3 form-check">
@@ -191,13 +195,7 @@ function Form() {
                   <li>✅ Excellent Connectivity to ORR, RRR & Airport</li>
                   <li>✅ Ready for Construction</li>
                   <li>✅ High-Growth Zone – Maximum Appreciation Potential</li>
-                    
                 </ul>
-                <p>Surrounded by rapid infrastructure development and major
-                    government projects, Iconia offers the perfect blend of
-                    nature, luxury, and future-ready living. Whether you’re
-                    planning to build your dream home or grow your wealth, this
-                    is your gateway to long-term prosperity.</p>
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Contact.css"; // Import your CSS file
+import "./Contact.css";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { BiX } from "react-icons/bi"; // Using a Bootstrap Icon
 

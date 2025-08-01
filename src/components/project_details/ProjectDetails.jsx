@@ -19,7 +19,7 @@ const ProjectDetails = () => {
     e.preventDefault();
     console.log('Form Submitted:', formData);
     const link = document.createElement('a');
-    link.href = '../../assets/Galleria-Gardens-brochure.pdf';
+    link.href = '../../assets/Elegant-Iconia-Presentation.pdf';
     link.download = 'Urbanrise_Brochure.pdf';
     link.click();
     handleClose();
