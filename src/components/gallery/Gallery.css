@@ -1,0 +1,37 @@
+.gallery-modal {
+          position: fixed;
+          inset: 0;
+          z-index: 1100;
+          background: rgba(0,0,0,0.85);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .gallery-modal-img {
+          max-width: 92vw;
+          max-height: 90vh;
+          border-radius: 10px;
+          box-shadow: 0 6px 38px rgba(0,0,0,0.45);
+        }
+        .gallery-modal-close {
+          position: absolute;
+          top: 32px;
+          right: 42px;
+          background: rgba(0,0,0,0.5);
+          color: #fff;
+          font-size: 2.2rem;
+          border: none;
+          border-radius: 50%;
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1200;
+          box-shadow: 0 2px 6px rgba(0,0,0,.1);
+          transition: background 0.2s;
+        }
+        .gallery-modal-close:hover {
+          background: rgba(0,0,0,0.85);
+        }

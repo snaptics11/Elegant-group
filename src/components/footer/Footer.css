@@ -1,0 +1,43 @@
+.footer {
+    background: linear-gradient(to right, #4a6572, #3498db); 
+    color: white;
+}
+
+.logo-section {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+}
+
+.logo-box {
+    text-align: center;
+}
+
+.social-icons a {
+    color: #333;
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.list-unstyled li a {
+    color: white;
+    text-decoration: none;
+}
+
+.list-unstyled li a:hover {
+    text-decoration: underline;
+}
+
+.social-icons a:hover {
+    color: #007bff;
+}
+
+.footer hr {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}

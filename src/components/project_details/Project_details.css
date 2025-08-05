@@ -1,0 +1,22 @@
+.future-section {
+    background-image: url('../../assets/background1.jpg'); 
+    background-size: cover;
+    background-position: center ;
+    min-height: 500px;
+    display: flex;
+    align-items: center;    
+  }
+  
+  .glass-card {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    transition: transform 0.4s;
+  }
+  
+  .glass-card:hover {
+    transform: scale(1.05);
+  }
+  

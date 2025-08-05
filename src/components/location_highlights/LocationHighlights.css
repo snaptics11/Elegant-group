@@ -1,0 +1,95 @@
+.location-section {
+  background: #ffffff;
+  padding: 3rem 1rem; /* Adds spacing for small screens */
+}
+
+/* Base: Remove default arrow and add circle with + */
+.accordion-button::after {
+  background-image: none !important;
+  content: '+';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #000000;
+  color: white;
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+/* When expanded: switch to minus */
+.accordion-button:not(.collapsed)::after {
+  content: '−';
+}
+
+
+
+/* Enquire button */
+.enquire-btn {
+  border: none;
+  padding: 10px 25px;
+  font-weight: bold;
+  border-radius: 8px;
+  color: white;
+  background-color: #0d6efd; /* Bootstrap primary */
+  transition: all 0.3s ease;
+}
+
+.enquire-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Responsive map image fix */
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure modal form fields look consistent */
+.modal-body form .form-control {
+  border-radius: 6px;
+  padding: 10px;
+}
+
+/* Responsive heading & paragraph */
+#location-highlights h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+#location-highlights p {
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Optional: accordion section spacing */
+.accordion-item {
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+/* Reduce spacing on mobile */
+@media (max-width: 768px) {
+  .enquire-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  #location-highlights p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  .accordion-button {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,16 @@
+.side-button {
+    position: fixed;
+    top: 40%;
+    right: 0;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    background: linear-gradient(45deg, #006eff);
+    color: white;
+    padding: 10px 8px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1050;
+    border-radius: 6px 0 0 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  }
+  

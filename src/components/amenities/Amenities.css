@@ -1,0 +1,29 @@
+.amenities-section {
+    padding: 50px 0;
+    background-color: #e7fbc9; 
+}
+
+.amenity-card {
+    background-color: #f6f6f6; 
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease;
+}
+
+.amenity-card:hover {
+    transform: translateY(-15px);
+}
+
+.amenity-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.amenity-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}

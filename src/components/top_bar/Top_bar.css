@@ -1,0 +1,15 @@
+.social a {
+    font-size: 18px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social a:hover {
+    color: orange;
+}
+.social {
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
