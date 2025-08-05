@@ -14,6 +14,7 @@ import LocationHighlights from './components/location_highlights/LocationHighlig
 import Chatbot from './components/chatbot/Chatbot';
 // import Amenities from './components/amenities/Amenities';
 import ThankYouPage from "./pages/thank_you/ThankYou"; 
+import BottomBar from './components/bottom_bar/BottomBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
               <div id="location-highlights"><LocationHighlights /></div>
               <div id="Contact"><Contact /></div>
               <Footer />
+              <BottomBar />
             </div>
           }
         />
